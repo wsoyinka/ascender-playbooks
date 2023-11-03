@@ -8,8 +8,9 @@
   tasks:
 
     - name: Install Updates (exclude Kernel)
-      ansible.builtin.dnf:
+      ansible.builtin.yum:
         name: '*'
+        use_backend: auto
         state: latest
         security: "{{ security_updates }}"
         skip_broken: yes
@@ -17,7 +18,8 @@
       register: updates
 
     - name: Install Kernel Updates
-      ansible.builtin.dnf:
+      ansible.builtin.yum:
+        use_backend: auto
         name: 'kernel'
         state: latest
       when: update_kernel | bool
